@@ -27,6 +27,14 @@ public class PictureTester
     caterpillar.explore();
   }
   
+  public static void testRandomColor()
+  {
+	  Picture randomCat = new Picture("barbaraS.jpg");
+	  randomCat.explore();
+	  randomCat.randomColor();
+	  randomCat.explore();
+  }
+  
   /** Method to test mirrorTemple */
   public static void testMirrorTemple()
   {
@@ -60,6 +68,7 @@ public class PictureTester
     // and comment out the ones you don't want
     // to run
     testZeroBlue();
+    testRandomColor();
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
