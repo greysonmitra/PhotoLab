@@ -29,18 +29,18 @@ public class IntArrayWorker
     return total;
   }
   
-  public int getCount()
+  public int getCount(int searchValue)
   {
 	  int count = 0;
 	    for (int row = 0; row < matrix.length; row++)
 	    {
 	      for (int col = 0; col < matrix[0].length; col++)
 	      {
-	        if(matrix[row][col] == 1)
+	        if(count == searchValue)
 	        {
-	        	 count = count + 1;
+	        	 count++;
 	        }
-//	    	  count = count + matrix[row][col];
+
 	      }
 	    }
 	    return count; 
@@ -48,28 +48,41 @@ public class IntArrayWorker
   
   public int getLargest()
   {
-	  int largest = Integer.;
+	  int largest = Integer.MIN_VALUE;
 	  
-	  for (row : matrix)
+	  for (int [] row : matrix)
 	  {
-		  for int 
+		  for (int spot : row)
+		  {
+			  if(spot >= largest)
+			  {
+				  largest = spot;
+			  }
+		  }
 	  }
 	  
-	  
-	  
-	  for (int row = 0; row < matrix.length; row++)
+	   for (int row = 0; row < matrix.length; row++)
 	    {
 	      for (int col = 0; col < matrix[0].length; col++)
 	      {
-	    	  
+	    	  if(matrix[row][col] > largest)
+	    	  {
+	    		  largest = matrix[row][col];
+	    	  }
 	      }
 	    }
 	  return largest;
   }
   
-  public int getColTotal()
+  public int getColTotal(int selectedColumn)
   {
-//	  supposed to be only one loop
+	  int colTotal = 0;
+	  for(int row = 0; row < matrix.length; row++)
+	  {
+		  colTotal += matrix[row][selectedColumn];
+	  }
+	  return colTotal;
+
   }
   
   /**

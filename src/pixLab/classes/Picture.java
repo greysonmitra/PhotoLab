@@ -168,9 +168,10 @@ public class Picture extends SimplePicture
 	    {
 	      for (Pixel pixelObj : rowArray)
 	      {
-	        pixelObj.setBlue(84);
-	        pixelObj.setGreen(4);
-	        pixelObj.setRed(84);
+	    	int averageColor = (pixelObj.getBlue() + pixelObj.getRed() + pixelObj.getGreen())/3;  
+	        pixelObj.setBlue(averageColor);
+	        pixelObj.setGreen(averageColor);
+	        pixelObj.setRed(averageColor);
 	      }
 	    }
   }
@@ -218,12 +219,12 @@ public class Picture extends SimplePicture
     Pixel topPixel = null;
     Pixel bottomPixel = null;
     int piclength = pixels.length;
-    for (int row = 0; row < pixels.length; row++)
+    for (int row = 0; row > piclength / 2; row++)
     {
-      for (int col = 0; col < piclength / 2; col++)
+      for (int col = 0; col < pixels[0].length; col++)
       { 
         topPixel = pixels[row][col];
-        bottomPixel = pixels[row][piclength - 1 - col]; 
+        bottomPixel = pixels[piclength - 1 - row][col]; 
         bottomPixel.setColor(topPixel.getColor());
       }
     } 
@@ -355,7 +356,8 @@ public class Picture extends SimplePicture
   {
     Picture beach = new Picture("barbaraS.jpg");
     beach.explore();
-    beach.mirrorHorizontal();
+    beach.zeroRed();
+    beach.explore();
     beach.Greyscale();
     beach.explore();
     
