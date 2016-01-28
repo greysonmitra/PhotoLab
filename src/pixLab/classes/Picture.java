@@ -219,13 +219,30 @@ public class Picture extends SimplePicture
     Pixel topPixel = null;
     Pixel bottomPixel = null;
     int piclength = pixels.length;
-    for (int row = 0; row > piclength / 2; row++)
+    for (int row = 0; row < piclength / 2; row++)
     {
       for (int col = 0; col < pixels[0].length; col++)
       { 
         topPixel = pixels[row][col];
         bottomPixel = pixels[piclength - 1 - row][col]; 
         bottomPixel.setColor(topPixel.getColor());
+      }
+    } 
+  }
+  
+  public void mirrorHorizontalBottomToTop()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel topPixel = null;
+    Pixel bottomPixel = null;
+    int piclength = pixels.length;
+    for (int row = 0; row < piclength / 2; row++)
+    {
+      for (int col = 0; col < pixels[0].length; col++)
+      { 
+        topPixel = pixels[row][col];
+        bottomPixel = pixels[piclength - 1 - row][col]; 
+        topPixel.setColor(bottomPixel.getColor());
       }
     } 
   }
@@ -266,11 +283,29 @@ public class Picture extends SimplePicture
       {
         
         leftPixel = pixels[row][col];      
-        rightPixel = pixels[row]                       
-                         [mirrorPoint - col + mirrorPoint];
+        rightPixel = pixels[row][mirrorPoint - col + mirrorPoint];
         rightPixel.setColor(leftPixel.getColor());
       }
     }
+  }
+  
+  public void mirrorArms()
+  {
+	  int mirrorPoint = 288;
+	  Pixel topPixel = null;
+	  Pixel bottomPixel = null;
+	  int count = 0;
+	  Pixel[][] pixels = this.getPixels2D();
+	  
+	  for (int row = 164; row < 195; row++)
+	  {
+		  for (int col = 100; col < mirrorPoint; col++)
+		  {
+			  topPixel = pixels[row][col];
+			  bottomPixel = pixels[mirrorPoint - row][col];
+			  bottomPixel.setColor(topPixel.getColor());
+		  }
+	  }
   }
   
   /** copy from the passed fromPic to the
@@ -354,11 +389,13 @@ public class Picture extends SimplePicture
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("barbaraS.jpg");
+    Picture beach = new Picture("snowman.jpg");
     beach.explore();
-    beach.zeroRed();
-    beach.explore();
+    beach.mirrorVertical();
     beach.Greyscale();
+    beach.mirrorHorizontalBottomToTop();
+    beach.mirrorArms();
+    beach.createCollage();
     beach.explore();
     
   }
