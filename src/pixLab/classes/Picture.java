@@ -90,7 +90,9 @@ public class Picture extends SimplePicture
     {
       for (Pixel pixelObj : rowArray)
       {
+    	  int tempBlue = pixelObj.getBlue();
         pixelObj.setBlue(0);
+        tempBlue = pixelObj.getBlue();
       }
     }
   }
@@ -176,6 +178,24 @@ public class Picture extends SimplePicture
 	    }
   }
   
+  public void negate()
+  {
+	  Pixel[][] pixels = this.getPixels2D();
+	    for (Pixel[] rowArray : pixels)
+	    {
+	      for (Pixel pixelObj : rowArray)
+	      {
+	    	int currentGreen = pixelObj.getGreen();
+	    	int currentRed = pixelObj.getRed();
+	    	int currentBlue = pixelObj.getBlue();
+	        pixelObj.setBlue(255 - currentBlue);
+	        pixelObj.setGreen(255 - currentGreen);
+	        pixelObj.setRed(255 - currentRed);
+	      }
+	    }
+	 
+  }
+  
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
@@ -247,6 +267,24 @@ public class Picture extends SimplePicture
     } 
   }
   
+  public void mirrorDiagonal()
+  {
+	  Pixel[][] pixels = this.getPixels2D();
+	    Pixel toprightPixel = null;
+	    Pixel bottomleftPixel = null;
+	    int picdiagonal = pixels.length;
+	    int mirrorPoint = pixels[0].length + 1;
+	    for (int row = 0; row < picdiagonal; row++)
+	    {
+	      for (int col = 0; col <= row; col++) //col < pixels[0].length
+	      { 
+	        toprightPixel = pixels[mirrorPoint][col];
+	        bottomleftPixel = pixels[row][col]; 
+	        bottomleftPixel.setColor(toprightPixel.getColor());
+	      }
+	    } 
+  }
+  
   public void randomColor()
   {
 	  Pixel[][] pixels = this.getPixels2D();
@@ -304,6 +342,25 @@ public class Picture extends SimplePicture
 			  topPixel = pixels[row][col];
 			  bottomPixel = pixels[mirrorPoint - row][col];
 			  bottomPixel.setColor(topPixel.getColor());
+		  }
+	  }
+  }
+  
+  public void mirrorGull()
+  {
+	  int mirrorPoint = 350;
+	  Pixel leftPixel = null;
+	  Pixel rightPixel = null;
+	  int count = 0;
+	  Pixel[][] pixels = this.getPixels2D();
+	  
+	  for (int row = 230; row < 330; row++)
+	  {
+		  for (int col = 230; col < mirrorPoint; col++)
+		  {
+			  leftPixel = pixels[row][col];
+			  rightPixel = pixels[row][mirrorPoint - col];
+			  rightPixel.setColor(leftPixel.getColor());
 		  }
 	  }
   }
@@ -383,19 +440,36 @@ public class Picture extends SimplePicture
     }
   }
   
+  public void edgeDetection2(int edgeDist)
+  {
+    Pixel bottomPixel = null;
+    Pixel topPixel = null;
+    Pixel[][] pixels = this.getPixels2D();
+    Color bottomColor = null;
+    for (int row = 0; row < pixels.length; row++)
+    {
+      for (int col = 0; col < pixels[0].length-1; col++)
+      {
+        topPixel = pixels[row][col];
+        bottomPixel = pixels[row + 1][col];
+        bottomColor = bottomPixel.getColor();
+        if (topPixel.colorDistance(bottomColor) > edgeDist)
+          topPixel.setColor(Color.BLACK);
+        else
+          topPixel.setColor(Color.WHITE);
+      }
+    }
+  }
+  
   
   /* Main method for testing - each class in Java can have a main 
    * method 
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("snowman.jpg");
+    Picture beach = new Picture("seagull.jpg");
     beach.explore();
-    beach.mirrorVertical();
-    beach.Greyscale();
-    beach.mirrorHorizontalBottomToTop();
-    beach.mirrorArms();
-    beach.createCollage();
+    beach.edgeDetection2(10);
     beach.explore();
     
   }
