@@ -286,15 +286,32 @@ public class Picture extends SimplePicture
 	    Pixel bottomleftPixel = null;
 	    int picdiagonal = pixels.length;
 	    int mirrorPoint = pixels[0].length + 1;
-	    for (int row = 90; row < picdiagonal; row++)
+	    if (picdiagonal < mirrorPoint)
 	    {
-	      for (int col = 100; col < 486; col++) //col < pixels[0].length
-	      { 
-	        toprightPixel = pixels[row][col];
-	        bottomleftPixel = pixels[mirrorPoint - row][col]; 
-	        bottomleftPixel.setColor(toprightPixel.getColor());
-	      }
-	    } 
+	    	for (int row = 0; row < picdiagonal; row++)
+		    {
+		      for (int col = 0; col < picdiagonal; col++) //col < pixels[0].length
+		      { 
+		        toprightPixel = pixels[row][col];
+		        bottomleftPixel = pixels[col][row]; 
+		        bottomleftPixel.setColor(toprightPixel.getColor());
+		      }
+		    } 
+	    }
+	    else
+	    {
+	    	for (int row = 0; row < mirrorPoint; row++)
+		    {
+		      for (int col = 0; col < mirrorPoint; col++) //col < pixels[0].length
+		      { 
+		    	  toprightPixel = pixels[row][col];
+			        bottomleftPixel = pixels[col][row]; 
+			        bottomleftPixel.setColor(toprightPixel.getColor());
+		      }
+		    } 
+	    }
+	    
+	    
   }
   
   public void randomColor()
@@ -479,9 +496,9 @@ public class Picture extends SimplePicture
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("seagull.jpg");
+    Picture beach = new Picture("water.jpg");
     beach.explore();
-    beach.edgeDetection2(10);
+    beach.negate();
     beach.explore();
     
   }
