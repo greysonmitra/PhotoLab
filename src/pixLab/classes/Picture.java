@@ -490,6 +490,32 @@ public class Picture extends SimplePicture
     }
   }
   
+  public void chromakeyEncode()
+  {
+	  	
+	  
+	  	Pixel underPixel = null;
+	    Pixel frontPixel = null;
+	    
+	    int currentRed = frontPixel.getRed(); 
+	    
+	    Pixel[][] pixels = this.getPixels2D();
+	    Color bottomColor = null; //Do i need this for chromakey method?
+	    for (int row = 0; row < pixels.length-1; row++)
+	    {
+	      for (int col = 0; col < pixels[0].length; col++)
+	      {
+	        frontPixel = pixels[row][col];
+	        underPixel = pixels[row][col];
+	        bottomColor = underPixel.getColor();
+	        
+	        if ((frontPixel.getRed() % 2) != 0)
+	          frontPixel.setRed(currentRed + 1);
+	        else
+	          frontPixel.setColor(Color.WHITE);
+	      }
+	    }
+  }
   
   /* Main method for testing - each class in Java can have a main 
    * method 
@@ -498,7 +524,7 @@ public class Picture extends SimplePicture
   {
     Picture beach = new Picture("water.jpg");
     beach.explore();
-    beach.negate();
+    beach.edgeDetection(100);
     beach.explore();
     
   }
